@@ -1,0 +1,24 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: inventaire
+          POSTGRES_PASSWORD: inventaire
+          POSTGRES_DB: inventaire_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U inventaire" --health-interval 3s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: pytest -v
