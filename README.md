@@ -1,5 +1,7 @@
 # API Inventaire Informatique — FastAPI & PostgreSQL
 
+![Tests](https://github.com/claudemaelle-ad/inventaire-api/actions/workflows/tests.yml/badge.svg)
+
 API REST de gestion d'un inventaire de matériel informatique (postes, serveurs, écrans, équipements réseau…).
 
 **Stack :** Python 3.12 · FastAPI · SQLAlchemy 2 · PostgreSQL 16 · Pydantic v2 · Pytest · Docker · GitHub Actions
