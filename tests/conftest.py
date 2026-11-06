@@ -5,17 +5,20 @@ La base de test est définie par TEST_DATABASE_URL (par défaut : inventaire_tes
 
 import os
 
-import pytest
-from fastapi.testclient import TestClient
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
-from app.database import Base, get_db
-from app.main import app
-
 TEST_DATABASE_URL = os.getenv(
     "TEST_DATABASE_URL", "postgresql+psycopg2://inventaire:inventaire@localhost:5432/inventaire_test"
 )
+# Toute l'application (y compris le démarrage) utilise la base de test :
+# à définir AVANT d'importer l'app, qui lit sa configuration à l'import.
+os.environ["DATABASE_URL"] = TEST_DATABASE_URL
+
+import pytest  # noqa: E402
+from fastapi.testclient import TestClient  # noqa: E402
+from sqlalchemy import create_engine  # noqa: E402
+from sqlalchemy.orm import sessionmaker  # noqa: E402
+
+from app.database import Base, get_db  # noqa: E402
+from app.main import app  # noqa: E402
 
 engine = create_engine(TEST_DATABASE_URL)
 TestingSession = sessionmaker(bind=engine, autoflush=False, autocommit=False)
